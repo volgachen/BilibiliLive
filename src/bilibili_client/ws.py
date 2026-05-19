@@ -141,7 +141,7 @@ class BiliClient:
     async def connect(self):
         addr, authBody = self.getWebsocketInfo()
         print(addr, authBody)
-        websocket = await websockets.connect(addr)
+        websocket = await websockets.connect(addr, ping_interval=None)
         # 鉴权
         await self.auth(websocket, authBody)
         return websocket
