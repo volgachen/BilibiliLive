@@ -128,7 +128,14 @@ class BiliClient:
         while True:
             recvBuf = await websocket.recv()
             resp = Proto()
-            resp.unpack(recvBuf)
+            res = resp.unpack(recvBuf)
+            print("receivedRespBody", len(res), type(res))
+            if len(res) < 10:
+                print(f"收到心跳回复[{res}]")
+            elif res:
+                # 收到的是消息
+                data = json.loads(res)["data"]
+                print(f"[BiliClient] recv uname: {data['uname']}, data: {data['msg']} timestamp: {data['timestamp']}")
 
     # 建立连接
     async def connect(self):
